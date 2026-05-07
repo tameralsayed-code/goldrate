@@ -451,6 +451,15 @@
             <svg style="width: 15px; height: 15px; fill: var(--text-muted);" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
           </div>
 
+          <!-- زر مشاركة التطبيق -->
+          <div class="setting-item" id="shareAppBtn" style="cursor: pointer;">
+            <div class="setting-info">
+              <span class="setting-title" data-i18n="shareAppTitle">مشاركة التطبيق</span>
+              <span class="setting-desc" data-i18n="shareAppDesc">شارك التطبيق مع أصدقائك</span>
+            </div>
+            <svg style="width: 15px; height: 15px; fill: var(--text-muted);" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+          </div>
+
           <div class="setting-item">
             <div class="setting-info">
               <span class="setting-title" data-i18n="settingsAppInfo">معلومات التطبيق</span>
@@ -591,6 +600,10 @@
         aboutModalText: "تطبيق Gold price هو تطبيق لمتابعة أسعار الذهب اللحظية بدقة وسهولة، مع أداة بسيطة تساعدك على حساب زكاة ذهبك وفقا للشريعة الإسلامية بناءً على قيمة الذهب الحالية.",
         closeModal: "حسناً",
         
+        shareAppTitle: "مشاركة التطبيق", shareAppDesc: "شارك التطبيق مع أصدقائك",
+        shareText: "تابع أسعار الذهب اللحظية واحسب زكاتك بسهولة مع تطبيق Gold price!",
+        shareSuccess: "تم نسخ الرابط بنجاح",
+
         settingsAppInfo: "معلومات التطبيق", settingsVersion: "الإصدار 1.0", settingsStatus: "حالة الاتصال", settingsConnLive: "متصل بالسيرفر المباشر", settingsConnOffline: "أوفلاين"
       },
       en: {
@@ -618,6 +631,10 @@
         aboutModalText: "Gold price is an application to track live gold prices accurately and easily, along with a simple tool to help you calculate your gold Zakat according to Islamic Sharia based on current gold values.",
         closeModal: "Got it",
         
+        shareAppTitle: "Share App", shareAppDesc: "Share the app with your friends",
+        shareText: "Track live gold prices and calculate your Zakat easily with Gold price app!",
+        shareSuccess: "Link copied to clipboard",
+
         settingsAppInfo: "App Information", settingsVersion: "Version 1.0", settingsStatus: "Connection Status", settingsConnLive: "Live Server Connected", settingsConnOffline: "Offline Mode"
       }
     };
@@ -638,7 +655,8 @@
       port24: document.getElementById('port24'), port22: document.getElementById('port22'), port21: document.getElementById('port21'), port18: document.getElementById('port18'),
       wealthTotalValue: document.getElementById('wealthTotalValue'), nisabText: document.getElementById('nisabText'), nisabBar: document.getElementById('nisabBar'),
       zakatResultBox: document.getElementById('zakatResultBox'), zakatStatusMsg: document.getElementById('zakatStatusMsg'), zakatAmountValue: document.getElementById('zakatAmountValue'),
-      aboutAppBtn: document.getElementById('aboutAppBtn'), aboutModal: document.getElementById('aboutModal'), closeModalBtn: document.getElementById('closeModalBtn')
+      aboutAppBtn: document.getElementById('aboutAppBtn'), aboutModal: document.getElementById('aboutModal'), closeModalBtn: document.getElementById('closeModalBtn'),
+      shareAppBtn: document.getElementById('shareAppBtn')
     };[els.ouncePrice, els.dollarRate, els.customWeightInput, els.customMasInput, els.port24, els.port22, els.port21, els.port18].forEach(input => {
       input.addEventListener('input', handleInputFormat);
     });
@@ -659,6 +677,28 @@
     els.aboutAppBtn.addEventListener('click', () => { triggerVibration(); els.aboutModal.classList.add('show'); });
     els.closeModalBtn.addEventListener('click', () => { triggerVibration(); els.aboutModal.classList.remove('show'); });
     els.aboutModal.addEventListener('click', (e) => { if(e.target === els.aboutModal) els.aboutModal.classList.remove('show'); });
+
+    // --- Share Logic ---
+    els.shareAppBtn.addEventListener('click', async () => {
+      triggerVibration();
+      const shareData = {
+        title: 'Gold price',
+        text: i18n[currentLang].shareText,
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        try { await navigator.share(shareData); } 
+        catch (err) { console.log('Error sharing:', err); }
+      } else {
+        // Fallback for unsupported browsers
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          alert(i18n[currentLang].shareSuccess);
+        }).catch(err => {
+          console.log('Error copying link:', err);
+        });
+      }
+    });
 
     function checkMarketStatus() {
       const day = new Date().getUTCDay(); 
@@ -821,16 +861,31 @@
 
     function calculateResults() {
       const ounce = getRawValue(els.ouncePrice.value); const dollar = getRawValue(els.dollarRate.value);
-      if (selectedWeightValue > 0) { els.resMasnaweya.textContent = formatMoney(selectedMasnaweyaValue); els.resCashback.textContent = formatMoney(CASHBACK_MARGIN); } 
-      else { els.resMasnaweya.textContent = "0"; els.resCashback.textContent = "0"; }
+      
+      // تحديد قيمة الكاش باك بناءً على العيار ونوع الوزن المختار
+      let currentCashback = (currentKarat === 21 && isCustomSelected) ? 0 : CASHBACK_MARGIN;
+
+      if (selectedWeightValue > 0) { 
+        els.resMasnaweya.textContent = formatMoney(selectedMasnaweyaValue); 
+        els.resCashback.textContent = formatMoney(currentCashback); 
+      } else { 
+        els.resMasnaweya.textContent = "0"; 
+        els.resCashback.textContent = "0"; 
+      }
       
       globalGramPrice24 = (ounce * dollar) / GRAMS_PER_OUNCE;
       let gramPrice = globalGramPrice24; if (currentKarat === 21) gramPrice = gramPrice * (21 / 24);
       els.resGramBase.textContent = (ounce > 0 && dollar > 0) ? formatMoney(gramPrice) : "0.00";
-      if (!selectedWeightValue || !ounce || !dollar) { els.resTotalBuy.textContent = "0.00"; els.resTotalSell.textContent = "0.00"; calculatePortfolioAndZakat(); return; }
+      
+      if (!selectedWeightValue || !ounce || !dollar) { 
+        els.resTotalBuy.textContent = "0.00"; 
+        els.resTotalSell.textContent = "0.00"; 
+        calculatePortfolioAndZakat(); 
+        return; 
+      }
       
       els.resTotalBuy.textContent = formatMoney((gramPrice + selectedMasnaweyaValue) * selectedWeightValue); 
-      els.resTotalSell.textContent = formatMoney((gramPrice + CASHBACK_MARGIN) * selectedWeightValue);
+      els.resTotalSell.textContent = formatMoney((gramPrice + currentCashback) * selectedWeightValue);
       calculatePortfolioAndZakat(); 
     }
     
