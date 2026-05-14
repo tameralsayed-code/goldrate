@@ -349,7 +349,7 @@
               <input type="text" id="customWeightInput" inputmode="decimal" lang="en" dir="ltr" placeholder="0.00">
             </div>
             <div id="customMasWrapper">
-              <label data-i18n="customMas">المصنعية (للجرام)</label>
+              <label id="customMasLabel" data-i18n="customMas">المصنعية (للجرام)</label>
               <input type="text" id="customMasInput" inputmode="decimal" lang="en" dir="ltr" placeholder="0">
             </div>
           </div>
@@ -361,7 +361,7 @@
             <strong id="resGramBase">0.00</strong>
           </div>
           <div class="invoice-row">
-            <span class="label" data-i18n="masnaweya">المصنعية للجرام</span>
+            <span class="label" id="invoiceMasnaweyaLabel" data-i18n="masnaweya">المصنعية للجرام</span>
             <strong id="resMasnaweya">0</strong>
           </div>
           <div class="invoice-row row-buy">
@@ -572,7 +572,7 @@
     let currentTheme = localStorage.getItem('appTheme') || 'light';
     let globalGramPrice24 = 0;
     let isManualDollar = false;
-    let isAppOnline = true; // متغير لتتبع حالة الاتصال بشكل مستمر
+    let isAppOnline = true; 
 
     const i18n = {
       ar: {
@@ -583,8 +583,10 @@
         highPrice: "▲ أعلى سعر", lowPrice: "▼ أقل سعر",
         karat24: "عيار 24 (السبائك)", karat21: "عيار 21 (العملات)",
         dropdownLabel24: "اختر وزن السبيكة", dropdownLabel21: "اختر العملة الذهبية", dropdownDefault: "اضغط للاختيار...",
-        customOption: "✍️ إدخال وزن مخصص...", customWeight: "الوزن (جرام)", customMas: "المصنعية (للجرام)",
-        karatPriceLabel: "سعر عيار", masnaweya: "المصنعية للجرام",
+        customOption: "✍️ إدخال وزن مخصص...", customWeight: "الوزن (جرام)", 
+        customMas: "المصنعية (للجرام)", customMasPercent: "المصنعية (نسبة %)",
+        karatPriceLabel: "سعر عيار", 
+        masnaweya: "المصنعية للجرام", totalMasnaweya: "إجمالي المصنعية",
         totalBuy: "إجمالي سعر الشراء", cashback: "كاش باك للجرام", totalSell: "إجمالي سعر البيع",
         
         portTitle: "حساب زكاتي (ذهب مختلط)", portDesc: "أدخل أوزان الذهب التي تملكها بالجرام لحساب قيمتها وزكاتها.",
@@ -614,8 +616,10 @@
         highPrice: "▲ High", lowPrice: "▼ Low",
         karat24: "24K (Bars)", karat21: "21K (Coins)",
         dropdownLabel24: "Select Bar", dropdownLabel21: "Select Coin", dropdownDefault: "Tap to select...",
-        customOption: "✍️ Custom Weight...", customWeight: "Weight (g)", customMas: "Making Charge /g",
-        karatPriceLabel: "Price of", masnaweya: "Making Charge /g",
+        customOption: "✍️ Custom Weight...", customWeight: "Weight (g)", 
+        customMas: "Making Charge /g", customMasPercent: "Making Charge (%)",
+        karatPriceLabel: "Price of", 
+        masnaweya: "Making Charge /g", totalMasnaweya: "Total Making Charge",
         totalBuy: "Total Buy Price", cashback: "Cashback /g", totalSell: "Total Sell Price",
         
         portTitle: "My Zakat (Mixed Gold)", portDesc: "Enter your gold weights to calculate their total value & Zakat.",
@@ -651,6 +655,7 @@
       dropdownSelected: document.getElementById('dropdownSelected'), dropdownOptions: document.getElementById('dropdownOptions'), selectedText: document.getElementById('selectedText'),
       customInputsContainer: document.getElementById('customInputsContainer'), customWeightInput: document.getElementById('customWeightInput'), customMasInput: document.getElementById('customMasInput'),
       invoiceKaratLabel: document.getElementById('invoiceKaratLabel'), dropdownLabel: document.getElementById('dropdownLabel'),
+      customMasLabel: document.getElementById('customMasLabel'), invoiceMasnaweyaLabel: document.getElementById('invoiceMasnaweyaLabel'),
       marketDot: document.getElementById('marketDot'), marketText: document.getElementById('marketText'), settingsConnStatus: document.getElementById('settingsConnStatus'),
       port24: document.getElementById('port24'), port22: document.getElementById('port22'), port21: document.getElementById('port21'), port18: document.getElementById('port18'),
       wealthTotalValue: document.getElementById('wealthTotalValue'), nisabText: document.getElementById('nisabText'), nisabBar: document.getElementById('nisabBar'),
@@ -691,7 +696,6 @@
         try { await navigator.share(shareData); } 
         catch (err) { console.log('Error sharing:', err); }
       } else {
-        // Fallback for unsupported browsers
         navigator.clipboard.writeText(window.location.href).then(() => {
           alert(i18n[currentLang].shareSuccess);
         }).catch(err => {
@@ -712,11 +716,22 @@
       document.getElementById('langText').textContent = lang === 'ar' ? 'EN' : 'ع';
       localStorage.setItem('appLang', lang);
       document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = i18n[lang][el.getAttribute('data-i18n')]; });
+      
       els.invoiceKaratLabel.innerHTML = lang === 'ar' ? `${i18n.ar.karatPriceLabel} <span class="en-num">${currentKarat}</span>` : `${i18n.en.karatPriceLabel} <span class="en-num">${currentKarat}K</span>`;
       document.querySelector('.hl-item.up span').textContent = i18n[lang].highPrice;
       document.querySelector('.hl-item.down span').textContent = i18n[lang].lowPrice;
+      
+      // الحفاظ على حالة النصوص المتغيرة ديناميكياً
+      if (isCustomSelected && currentKarat === 21) {
+          els.customMasLabel.textContent = i18n[lang].customMasPercent;
+          els.invoiceMasnaweyaLabel.textContent = i18n[lang].totalMasnaweya;
+      } else {
+          els.customMasLabel.textContent = i18n[lang].customMas;
+          els.invoiceMasnaweyaLabel.textContent = i18n[lang].masnaweya;
+      }
+
       renderDropdownOptions(true); checkMarketStatus(); calculatePortfolioAndZakat();
-      updateSettingsStatus(isAppOnline); // تحديث نص حالة الاتصال بناءً على اللغة الجديدة
+      updateSettingsStatus(isAppOnline); 
       if(els.statusIcon.innerHTML === '⚠') els.statusMessage.textContent = i18n[lang].offlineMode;
       else if(els.statusIcon.innerHTML === '✔') els.statusMessage.textContent = i18n[lang].apiSuccess;
       else if(els.statusIcon.innerHTML === '✖') els.statusMessage.textContent = i18n[lang].apiError;
@@ -743,9 +758,20 @@
           if(item.id === 'custom') {
             isCustomSelected = true; els.customInputsContainer.classList.add('show');
             selectedWeightValue = getRawValue(els.customWeightInput.value); selectedMasnaweyaValue = getRawValue(els.customMasInput.value);
+            
+            if (currentKarat === 21) {
+                els.customMasLabel.textContent = i18n[currentLang].customMasPercent;
+                els.invoiceMasnaweyaLabel.textContent = i18n[currentLang].totalMasnaweya;
+                els.customMasInput.placeholder = "0 %";
+            } else {
+                els.customMasLabel.textContent = i18n[currentLang].customMas;
+                els.invoiceMasnaweyaLabel.textContent = i18n[currentLang].masnaweya;
+                els.customMasInput.placeholder = "0";
+            }
           } else {
             isCustomSelected = false; els.customInputsContainer.classList.remove('show');
             selectedWeightValue = item.weight; selectedMasnaweyaValue = item.mas;
+            els.invoiceMasnaweyaLabel.textContent = i18n[currentLang].masnaweya;
           }
           calculateResults();
         });
@@ -761,6 +787,10 @@
       els.customWeightInput.value = ''; els.customMasInput.value = '';
       els.invoiceKaratLabel.innerHTML = currentLang === 'ar' ? `${i18n.ar.karatPriceLabel} <span class="en-num">${currentKarat}</span>` : `${i18n.en.karatPriceLabel} <span class="en-num">${currentKarat}K</span>`;
       els.dropdownLabel.textContent = currentKarat === 24 ? i18n[currentLang].dropdownLabel24 : i18n[currentLang].dropdownLabel21;
+      
+      els.invoiceMasnaweyaLabel.textContent = i18n[currentLang].masnaweya; 
+      els.customMasLabel.textContent = i18n[currentLang].customMas;
+      
       calculateResults();
     }
 
@@ -829,7 +859,7 @@
         }
 
         els.statusIcon.innerHTML = '✔'; els.statusIcon.style.color = '#10b981'; els.statusMessage.textContent = i18n[currentLang].apiSuccess;
-        isAppOnline = true; // حفظ الحالة
+        isAppOnline = true; 
         updateSettingsStatus(true);
         const now = new Date(); const timeStr = `(${now.getHours() % 12 || 12}:${now.getMinutes().toString().padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'})`;
         els.updateTime.textContent = timeStr; localStorage.setItem('cachedTime', timeStr);
@@ -848,12 +878,12 @@
           els.trendIcon.innerHTML = '●'; els.trendIcon.className = 'trend-icon trend-neutral';
           els.statusIcon.innerHTML = '⚠'; els.statusIcon.style.color = '#fbbf24'; els.statusMessage.textContent = i18n[currentLang].offlineMode;
           els.updateTime.textContent = savedTime || ''; 
-          isAppOnline = false; // حفظ الحالة
+          isAppOnline = false; 
           updateSettingsStatus(false); calculateResults();
         } else {
           els.statusIcon.innerHTML = '✖'; els.statusIcon.style.color = '#ef4444'; els.statusMessage.textContent = i18n[currentLang].apiError; 
           els.updateTime.textContent = ''; 
-          isAppOnline = false; // حفظ الحالة
+          isAppOnline = false; 
           updateSettingsStatus(false);
         }
       }
@@ -862,17 +892,8 @@
     function calculateResults() {
       const ounce = getRawValue(els.ouncePrice.value); const dollar = getRawValue(els.dollarRate.value);
       
-      // تحديد قيمة الكاش باك بناءً على العيار ونوع الوزن المختار
       let currentCashback = (currentKarat === 21 && isCustomSelected) ? 0 : CASHBACK_MARGIN;
 
-      if (selectedWeightValue > 0) { 
-        els.resMasnaweya.textContent = formatMoney(selectedMasnaweyaValue); 
-        els.resCashback.textContent = formatMoney(currentCashback); 
-      } else { 
-        els.resMasnaweya.textContent = "0"; 
-        els.resCashback.textContent = "0"; 
-      }
-      
       globalGramPrice24 = (ounce * dollar) / GRAMS_PER_OUNCE;
       let gramPrice = globalGramPrice24; if (currentKarat === 21) gramPrice = gramPrice * (21 / 24);
       els.resGramBase.textContent = (ounce > 0 && dollar > 0) ? formatMoney(gramPrice) : "0.00";
@@ -880,11 +901,30 @@
       if (!selectedWeightValue || !ounce || !dollar) { 
         els.resTotalBuy.textContent = "0.00"; 
         els.resTotalSell.textContent = "0.00"; 
+        els.resMasnaweya.textContent = "0";
+        els.resCashback.textContent = "0";
         calculatePortfolioAndZakat(); 
         return; 
       }
+
+      let totalGoldValue = gramPrice * selectedWeightValue;
+      let totalBuyPrice = 0;
+      let displayMasnaweya = 0;
+
+      if (currentKarat === 21 && isCustomSelected) {
+         let percentage = selectedMasnaweyaValue; 
+         let totalMasAmount = totalGoldValue * (percentage / 100);
+         totalBuyPrice = totalGoldValue + totalMasAmount;
+         displayMasnaweya = totalMasAmount;
+      } else {
+         totalBuyPrice = totalGoldValue + (selectedMasnaweyaValue * selectedWeightValue);
+         displayMasnaweya = selectedMasnaweyaValue;
+      }
+
+      els.resMasnaweya.textContent = formatMoney(displayMasnaweya);
+      els.resCashback.textContent = formatMoney(currentCashback);
       
-      els.resTotalBuy.textContent = formatMoney((gramPrice + selectedMasnaweyaValue) * selectedWeightValue); 
+      els.resTotalBuy.textContent = formatMoney(totalBuyPrice); 
       els.resTotalSell.textContent = formatMoney((gramPrice + currentCashback) * selectedWeightValue);
       calculatePortfolioAndZakat(); 
     }
