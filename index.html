@@ -81,7 +81,7 @@
       justify-content: space-between; 
       align-items: center; 
       margin-top: calc(16px + env(safe-area-inset-top)); 
-      margin-bottom: 40px; /* تم زيادة المسافة هنا لراحة العين */
+      margin-bottom: 40px; 
       height: 32px; 
       position: relative;
     }
@@ -385,6 +385,13 @@
               <strong class="sell-price" id="price18Sell">0.00</strong>
             </div>
 
+            <!-- تمت إضافة عيار 14 هنا -->
+            <div class="price-row">
+              <span class="karat-name" data-i18n="k14Label">عيار 14</span>
+              <strong class="buy-price" id="price14Buy">0.00</strong>
+              <strong class="sell-price" id="price14Sell">0.00</strong>
+            </div>
+
             <div class="price-row">
               <span class="karat-name" data-i18n="coinLabel">جنيه الذهب</span>
               <strong class="buy-price" id="priceCoinBuy">0.00</strong>
@@ -549,7 +556,7 @@
     <div class="bottom-nav-spacer">
       <nav class="bottom-nav">
         
-        <!-- Live Prices (الأسعار - تظهر في أقصى اليمين) -->
+        <!-- Live Prices -->
         <div class="nav-item active" data-target="tab-prices">
           <div class="icon-wrapper">
              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -557,7 +564,7 @@
           <span data-i18n="navPrices">الأسعار</span>
         </div>
 
-        <!-- Bullion Calculator (السبائك) -->
+        <!-- Bullion Calculator -->
         <div class="nav-item" data-target="tab-bullion">
           <div class="icon-wrapper">
             <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm6 4h-4v-2h4v2zm0-4h-4v-2h4v2zm0-5H7V5h10v3z"/></svg>
@@ -565,7 +572,7 @@
           <span data-i18n="navBullion">السبائك</span>
         </div>
 
-        <!-- Zakat (زكاتي) -->
+        <!-- Zakat -->
         <div class="nav-item" data-target="tab-portfolio">
           <div class="icon-wrapper">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79 1.55 1.5 3.63 2.45 5.94 2.51.54 3.01 2.37 5.56 4.88 7.04-.64.11-1.31.17-2.03.17z"/></svg>
@@ -573,7 +580,7 @@
           <span data-i18n="navZakatPage">زكاتي</span>
         </div>
 
-        <!-- Settings (الإعدادات - تظهر في أقصى اليسار) -->
+        <!-- Settings -->
         <div class="nav-item" data-target="tab-settings">
           <div class="icon-wrapper">
             <svg viewBox="0 0 24 24"><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -663,7 +670,7 @@
         highPrice: "▲ أعلى سعر", lowPrice: "▼ أقل سعر",
         
         livePricesTitle: "أسعار الذهب اللحظية", karatHeader: "العيار",
-        k24Label: "عيار 24", k21Label: "عيار 21", k18Label: "عيار 18", coinLabel: "جنيه الذهب",
+        k24Label: "عيار 24", k21Label: "عيار 21", k18Label: "عيار 18", k14Label: "عيار 14", coinLabel: "جنيه الذهب",
         buyLabel: "شراء", sellLabel: "بيع",
 
         karat24: "عيار 24 (السبائك)", karat21: "عيار 21 (العملات)",
@@ -700,7 +707,7 @@
         highPrice: "▲ High", lowPrice: "▼ Low",
         
         livePricesTitle: "Live Gold Prices", karatHeader: "Karat",
-        k24Label: "24K", k21Label: "21K", k18Label: "18K", coinLabel: "Gold Coin",
+        k24Label: "24K", k21Label: "21K", k18Label: "18K", k14Label: "14K", coinLabel: "Gold Coin",
         buyLabel: "Buy", sellLabel: "Sell",
 
         karat24: "24K (Bars)", karat21: "21K (Coins)",
@@ -742,6 +749,7 @@
       price24Buy: document.getElementById('price24Buy'), price24Sell: document.getElementById('price24Sell'),
       price21Buy: document.getElementById('price21Buy'), price21Sell: document.getElementById('price21Sell'),
       price18Buy: document.getElementById('price18Buy'), price18Sell: document.getElementById('price18Sell'),
+      price14Buy: document.getElementById('price14Buy'), price14Sell: document.getElementById('price14Sell'),
       priceCoinBuy: document.getElementById('priceCoinBuy'), priceCoinSell: document.getElementById('priceCoinSell'),
 
       resGramBase: document.getElementById('resGramBase'), resMasnaweya: document.getElementById('resMasnaweya'),
@@ -967,6 +975,7 @@
       let base24 = globalGramPrice24;
       let base21 = base24 * (21 / 24);
       let base18 = base24 * (18 / 24);
+      let base14 = base24 * (14 / 24);
       let baseCoin = base21 * 8; 
 
       els.price24Buy.textContent = base24 > 0 ? formatMoney(base24) : "0.00";
@@ -977,6 +986,9 @@
       
       els.price18Buy.textContent = base18 > 0 ? formatMoney(base18) : "0.00";
       els.price18Sell.textContent = base18 > 0 ? formatMoney(base18 - CASHBACK_MARGIN) : "0.00";
+
+      els.price14Buy.textContent = base14 > 0 ? formatMoney(base14) : "0.00";
+      els.price14Sell.textContent = base14 > 0 ? formatMoney(base14 - CASHBACK_MARGIN) : "0.00";
 
       els.priceCoinBuy.textContent = baseCoin > 0 ? formatMoney(baseCoin) : "0.00";
       els.priceCoinSell.textContent = baseCoin > 0 ? formatMoney(baseCoin - (CASHBACK_MARGIN * 8)) : "0.00";
