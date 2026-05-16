@@ -11,32 +11,33 @@
     :root {
       --gold-primary: #d4a019; --gold-dark: #b4850d; --gold-light: #ffe4a3;
       
-      /* ألوان الوضع النهاري المريحة للعين */
       --body-bg: #eaeff4; 
-      --card-bg: #f6f8fa; 
+      --card-bg: #f8fafc; 
       --text-main: #1e293b;
       --text-muted: #64748b; 
-      --border-color: #dde3ec; 
+      --border-color: #cbd5e1; 
       --buy-bg: #eefaf2;
       --buy-text: #166534; 
+      --buy-border: #a7f3d0;
       --sell-bg: #fdf7ea; 
       --sell-text: #b45309;
-      --dropdown-bg: #f6f8fa; 
+      --sell-border: #fde68a;
+      --dropdown-bg: #ffffff; 
       --dropdown-text: #1e293b; 
-      --dropdown-hover: #eef1f6;
-      --toggle-bg: #eef1f6; 
-      --invoice-row-border: #eef1f6; 
-      --btn-hover: #eef1f6;
-      --input-bg: #eef1f6; 
-      --nav-bg: rgba(246, 248, 250, 0.85); 
-      --shadow-soft: 0 4px 20px rgba(0,0,0,0.03);
-      
+      --dropdown-hover: #f1f5f9;
+      --toggle-bg: #f8fafc; 
+      --invoice-row-border: #cbd5e1; 
+      --btn-hover: #f1f5f9;
+      --input-bg: #ffffff; 
+      --nav-bg: rgba(255, 255, 255, 0.9); 
+      --shadow-soft: 0 4px 15px rgba(0,0,0,0.04);
       --nav-active-bg: rgba(212, 160, 25, 0.15);
       --success-color: #10b981; --danger-color: #ef4444;
     }[data-theme="dark"] {
       --body-bg: #0b1120; --card-bg: #1e293b; --text-main: #f8fafc;
-      --text-muted: #94a3b8; --border-color: #334155; --buy-bg: rgba(22, 101, 52, 0.2);
-      --buy-text: #4ade80; --sell-bg: rgba(180, 83, 9, 0.2); --sell-text: #fbbf24;
+      --text-muted: #94a3b8; --border-color: #334155; 
+      --buy-bg: rgba(22, 101, 52, 0.2); --buy-text: #4ade80; --buy-border: rgba(74, 222, 128, 0.3);
+      --sell-bg: rgba(180, 83, 9, 0.2); --sell-text: #fbbf24; --sell-border: rgba(251, 191, 36, 0.3);
       --dropdown-bg: #1e293b; --dropdown-text: #e2e8f0; --dropdown-hover: #0f172a;
       --toggle-bg: #0f172a; --invoice-row-border: #334155; --btn-hover: #334155;
       --input-bg: #0f172a; --nav-bg: rgba(30, 41, 59, 0.85); --shadow-soft: 0 4px 20px rgba(0,0,0,0.3);
@@ -80,23 +81,35 @@
       justify-content: space-between; 
       align-items: center; 
       margin-top: calc(16px + env(safe-area-inset-top)); 
-      margin-bottom: 16px; 
+      margin-bottom: 40px; /* تم زيادة المسافة هنا لراحة العين */
       height: 32px; 
+      position: relative;
     }
     .settings-group { display: flex; gap: 8px; }
     .icon-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-muted); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
     .icon-btn:hover { background: var(--btn-hover); color: var(--text-main); }
     .icon-btn svg { width: 15px; height: 15px; fill: currentColor; }[data-theme="dark"] .icon-sun { display: block; }[data-theme="dark"] .icon-moon { display: none; }[data-theme="light"] .icon-sun { display: none; }[data-theme="light"] .icon-moon { display: block; }
 
+    /* Centered Title in Top Bar */
+    .header-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--gold-dark);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .header-title { color: var(--gold-primary); }
+
     .status-badge { display: flex; align-items: center; gap: 4px; padding: 0 10px; height: 26px; border-radius: 20px; background: var(--card-bg); border: 1px solid var(--border-color); font-size: 11px; font-weight: 700; color: var(--text-muted); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
     .dot { width: 6px; height: 6px; border-radius: 50%; }
     .dot.open { background: var(--success-color); box-shadow: 0 0 8px rgba(16, 185, 129, 0.6); animation: pulse 2s infinite; }
     .dot.closed { background: var(--danger-color); }
     @keyframes pulse { 0% { transform: scale(0.95); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.8; } 100% { transform: scale(0.95); opacity: 1; } }
-
-    /* Header */
-    .header { text-align: center; margin-bottom: 12px; height: 28px; display: flex; justify-content: center; align-items: center; } 
-    .header h1 { color: var(--gold-dark); font-size: 23px; font-weight: 800; letter-spacing: -0.5px; margin: 0; font-family: Arial, sans-serif;}[data-theme="dark"] .header h1 { color: var(--gold-primary); }
 
     /* API Card & Trend Indicator */
     .api-card { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 14px; padding: 10px; margin-bottom: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
@@ -123,13 +136,53 @@
 
     .status-text { color: #94a3b8; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; font-weight: 600; position: relative; z-index: 2; height: 16px; white-space: nowrap; }
 
-    /* Toggle & Dropdown */
-    .karat-toggle { display: flex; background: var(--card-bg); border-radius: 12px; padding: 3px; margin-bottom: 8px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); height: 38px; box-sizing: border-box; }
-    .toggle-btn { flex: 1; height: 100%; font-size: 13px; font-weight: 700; color: var(--text-muted); border-radius: 9px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; white-space: nowrap; }
+    /* Feature Cards */
+    .feature-card { background: var(--card-bg); border-radius: 12px; padding: 10px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); margin-bottom: 8px;}
+    .feature-header { margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+    .feature-header h2 { font-size: 16px; color: var(--gold-dark); font-weight: 800; margin: 0; height: 20px; display: flex; justify-content: center; align-items: center; font-family: Arial, sans-serif;}[data-theme="dark"] .feature-header h2 { color: var(--gold-primary); }
+
+    /* Live Prices Grid */
+    .price-grid { display: flex; flex-direction: column; gap: 6px; }
+    .price-row { 
+        display: grid; 
+        grid-template-columns: 1.2fr 1fr 1fr; 
+        align-items: center; 
+        background: var(--input-bg); 
+        border-radius: 8px; 
+        padding: 8px 10px; 
+        border: 1px solid var(--border-color); 
+        transition: 0.2s; 
+        gap: 8px; 
+    }
+    .price-row:hover { border-color: var(--gold-primary); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(212, 160, 25, 0.08); }
+    .price-row.header { background: transparent; border: none; padding: 4px 10px; margin-bottom: -4px; pointer-events: none; }
+    
+    .price-row.header span { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .price-row.header span:nth-child(1) { text-align: start; }
+    .price-row.header span:nth-child(2) { text-align: center; }
+    .price-row.header span:nth-child(3) { text-align: center; }
+    
+    .price-row .karat-name { font-weight: 800; font-size: 14px; color: var(--gold-dark); text-align: start; }
+    [data-theme="dark"] .price-row .karat-name { color: var(--gold-primary); }
+    .price-row strong { font-family: Arial, sans-serif; font-size: 15px; font-weight: 800; direction: ltr; display: inline-block; white-space: nowrap; }
+    .price-row .buy-price { color: var(--success-color); text-align: center; }
+    .price-row .sell-price { color: var(--danger-color); text-align: center; }
+
+    /* Toggle & Dropdown (Bullion Tab) */
+    .karat-toggle { display: flex; background: var(--input-bg); border-radius: 8px; padding: 3px; margin-bottom: 12px; border: 1px solid var(--border-color); height: 38px; box-sizing: border-box; }
+    .toggle-btn { flex: 1; height: 100%; font-size: 13px; font-weight: 700; color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; white-space: nowrap; }
     .toggle-btn.active { background: var(--gold-primary); color: #fff; box-shadow: 0 4px 10px rgba(212, 160, 25, 0.3); }
 
-    .user-input-section { margin-bottom: 8px; width: 100%; position: relative; z-index: 10; background: var(--card-bg); padding: 10px; border-radius: 12px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); }
-    .user-input-section > label { display: flex; align-items: center; justify-content: center; margin-bottom: 6px; font-weight: 700; font-size: 13px; color: var(--text-main); height: 18px; white-space: nowrap; }
+    .user-input-section { 
+        background: var(--card-bg); 
+        border: 1px solid var(--border-color); 
+        border-radius: 12px; 
+        padding: 12px; 
+        margin-bottom: 12px; 
+        box-shadow: var(--shadow-soft); 
+        position: relative; z-index: 10; 
+    }
+    .user-input-section > label { display: flex; align-items: center; justify-content: center; margin-bottom: 8px; font-weight: 700; font-size: 13px; color: var(--text-main); height: 18px; white-space: nowrap; }
     
     .dropdown-selected { height: 38px; padding: 0 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--gold-dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; white-space: nowrap; }
     [data-theme="dark"] .dropdown-selected { color: var(--gold-primary); }
@@ -149,20 +202,20 @@
     
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Invoice */
-    .invoice-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 8px; overflow: hidden; box-shadow: var(--shadow-soft); }
-    .invoice-row { display: flex; justify-content: space-between; align-items: center; height: 42px; padding: 0 12px; font-size: 14px; border-bottom: 1px solid var(--invoice-row-border); }
-    .invoice-row:last-child { border-bottom: none; }
+    /* Invoice Grid Setup */
+    .invoice-card { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+    .invoice-row { display: flex; justify-content: space-between; align-items: center; min-height: 42px; padding: 8px 12px; font-size: 14px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; transition: 0.2s; }
+    .invoice-row:hover { border-color: var(--gold-primary); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(212, 160, 25, 0.08); }
     .invoice-row .label { color: var(--text-muted); font-weight: 700; display: flex; align-items: center; height: 100%; white-space: nowrap; }
     .invoice-row strong { font-weight: 800; color: var(--text-main); direction: ltr; font-family: Arial, sans-serif !important; font-size: 17px; display: flex; align-items: center; height: 100%; white-space: nowrap; }
-    .row-buy { background: var(--buy-bg); } .row-buy .label, .row-buy strong { color: var(--buy-text); }
-    .row-sell { background: var(--sell-bg); } .row-sell .label, .row-sell strong { color: var(--sell-text); }
-
-    /* Zakat Tab (زكاتي) */
-    .feature-card { background: var(--card-bg); border-radius: 12px; padding: 10px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); margin-bottom: 8px;}
-    .feature-header { margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
-    .feature-header h2 { font-size: 16px; color: var(--gold-dark); font-weight: 800; margin: 0; height: 20px; display: flex; justify-content: center; align-items: center; font-family: Arial, sans-serif;}[data-theme="dark"] .feature-header h2 { color: var(--gold-primary); }
     
+    .row-buy { background: var(--buy-bg); border-color: var(--buy-border); } 
+    .row-buy .label, .row-buy strong { color: var(--buy-text); }
+    
+    .row-sell { background: var(--sell-bg); border-color: var(--sell-border); } 
+    .row-sell .label, .row-sell strong { color: var(--sell-text); }
+
+    /* Zakat Tab */
     .portfolio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
     .port-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: 0.2s ease-in-out; }
     .port-item:focus-within { border-color: var(--gold-primary); box-shadow: 0 0 0 2px rgba(212, 160, 25, 0.15); transform: translateY(-1px); }
@@ -188,38 +241,20 @@
     .zakat-result.eligible p { color: var(--success-color); }
     .zakat-result.eligible h3 { color: var(--success-color); }
 
-    /* صندوق الحديث الشريف */
-    .hadith-box {
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 8px;
-      background: rgba(212, 160, 25, 0.08);
-      border: 1px solid rgba(212, 160, 25, 0.2);
-      text-align: center;
-    }
-    .hadith-box .hadith-title {
-      font-weight: 800;
-      color: var(--gold-dark);
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-    [data-theme="dark"] .hadith-box .hadith-title {
-      color: var(--gold-primary);
-    }
-    .hadith-box .hadith-text {
-      font-size: 12px;
-      line-height: 1.7;
-      color: var(--text-main);
-      font-weight: 600;
-    }[data-theme="dark"] .hadith-box .hadith-text {
-      color: #cbd5e1;
-    }
-
+    /* Settings Tab */
     .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--invoice-row-border); min-height: 40px; transition: background 0.2s; }
     .setting-item:last-child { border-bottom: none; }
     .setting-info { display: flex; flex-direction: column; gap: 2px; }
     .setting-title { font-size: 14px; font-weight: 700; color: var(--text-main); height: 20px; display: flex; align-items: center; }
     .setting-desc { font-size: 11px; color: var(--text-muted); font-weight: 600; height: 16px; display: flex; align-items: center; }
+
+    /* Settings Footer & Actions */
+    .settings-footer { margin-top: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .social-actions { display: flex; gap: 16px; justify-content: center; }
+    .action-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-soft); outline: none; }
+    .action-btn:hover { transform: translateY(-3px); color: var(--gold-primary); border-color: var(--gold-primary); box-shadow: 0 6px 15px rgba(212, 160, 25, 0.2); }
+    .action-btn:active { transform: scale(0.95); }
+    .app-version { font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; opacity: 0.7; }
 
     /* Modal Styles */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; padding: 20px; }
@@ -236,19 +271,10 @@
     .tab-page.active { display: block; }
     @keyframes fadeInTab { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
-    /* الحاوية السفلية */
-    .bottom-nav-spacer {
-      padding: 0 12px max(8px, env(safe-area-inset-bottom)) 12px;
-      flex-shrink: 0;
-      display: flex;
-      justify-content: center;
-      background: transparent;
-    }
-
-    /* Floating Bottom Navigation */
+    /* Bottom Nav */
+    .bottom-nav-spacer { padding: 0 12px max(8px, env(safe-area-inset-bottom)) 12px; flex-shrink: 0; display: flex; justify-content: center; background: transparent; }
     .bottom-nav { 
-      position: relative; 
-      width: 100%; max-width: 380px; 
+      position: relative; width: 100%; max-width: 420px; 
       background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(226, 232, 240, 0.6); display: flex; justify-content: space-around; 
       padding: 4px 6px; box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04); 
@@ -261,10 +287,9 @@
     
     .nav-item .icon-wrapper { flex-shrink: 0; position: relative; width: 40px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 12px; background: transparent; color: var(--text-muted); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .nav-item svg { width: 19px; height: 19px; fill: currentColor; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; z-index: 2; }
-    .nav-item span { font-size: 12px; font-weight: 700; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0.8; height: 16px; display: flex; align-items: center; transform: translateY(0); }
+    .nav-item span { font-size: 11px; font-weight: 700; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0.8; height: 16px; display: flex; align-items: center; transform: translateY(0); }
     
     .nav-item.active { color: var(--gold-dark); }[data-theme="dark"] .nav-item.active { color: var(--gold-primary); }
-    /* تعديل حركة النص والأيقونة لترتفع أكثر وتجنب الخروج من الإطار السفلي */
     .nav-item.active span { opacity: 1; transform: translateY(-3px); }
     .nav-item.active .icon-wrapper { background: var(--gold-primary); color: #ffffff; box-shadow: 0 4px 12px rgba(212, 160, 25, 0.4); transform: translateY(-12px); width: 40px; height: 40px; border-radius: 50%; }[data-theme="dark"] .nav-item.active .icon-wrapper { box-shadow: 0 4px 15px rgba(212, 160, 25, 0.25); }
     .nav-item.active svg { transform: scale(1.1); }
@@ -284,16 +309,18 @@
           </button>
           <button class="icon-btn" id="langToggle"><span id="langText" style="font-weight: 800;">EN</span></button>
         </div>
+        
+        <div class="header-title" data-i18n="title">Gold price</div>
+
         <div class="status-badge">
           <span class="dot" id="marketDot"></span>
           <span id="marketText" data-i18n="marketOpen">السوق مفتوح</span>
         </div>
       </div>
 
-      <header class="header"><h1 data-i18n="title">Gold price</h1></header>
-
-      <!-- ================= Tab 1: Calculator ================= -->
-      <section id="tab-calc" class="tab-page active">
+      <!-- ================= Tab 1: Live Prices ================= -->
+      <section id="tab-prices" class="tab-page active">
+        <!-- مربع السعر العالمي للدولار والأونصة -->
         <section class="api-card">
           <div class="api-grid">
             <div>
@@ -328,58 +355,105 @@
           </div>
         </section>
 
-        <div class="karat-toggle">
-          <div class="toggle-btn active" data-karat="24" data-i18n="karat24">عيار 24 (السبائك)</div>
-          <div class="toggle-btn" data-karat="21" data-i18n="karat21">عيار 21 (العملات)</div>
+        <!-- لوحة أسعار العيارات -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <h2 data-i18n="livePricesTitle">أسعار الذهب اللحظية</h2>
+          </div>
+          <div class="price-grid">
+            <div class="price-row header">
+              <span data-i18n="karatHeader">العيار</span>
+              <span data-i18n="buyLabel">شراء</span>
+              <span data-i18n="sellLabel">بيع</span>
+            </div>
+            
+            <div class="price-row">
+              <span class="karat-name" data-i18n="k24Label">عيار 24</span>
+              <strong class="buy-price" id="price24Buy">0.00</strong>
+              <strong class="sell-price" id="price24Sell">0.00</strong>
+            </div>
+
+            <div class="price-row">
+              <span class="karat-name" data-i18n="k21Label">عيار 21</span>
+              <strong class="buy-price" id="price21Buy">0.00</strong>
+              <strong class="sell-price" id="price21Sell">0.00</strong>
+            </div>
+
+            <div class="price-row">
+              <span class="karat-name" data-i18n="k18Label">عيار 18</span>
+              <strong class="buy-price" id="price18Buy">0.00</strong>
+              <strong class="sell-price" id="price18Sell">0.00</strong>
+            </div>
+
+            <div class="price-row">
+              <span class="karat-name" data-i18n="coinLabel">جنيه الذهب</span>
+              <strong class="buy-price" id="priceCoinBuy">0.00</strong>
+              <strong class="sell-price" id="priceCoinSell">0.00</strong>
+            </div>
+          </div>
         </div>
-
-        <section class="user-input-section">
-          <label id="dropdownLabel" data-i18n="dropdownLabel24">اختر الوزن</label>
-          <div class="custom-dropdown" id="customDropdown">
-            <div class="dropdown-selected" id="dropdownSelected">
-              <span id="selectedText" data-i18n="dropdownDefault">اضغط للاختيار...</span>
-              <span class="dropdown-arrow">▼</span>
-            </div>
-            <div class="dropdown-options" id="dropdownOptions"></div>
-          </div>
-          
-          <div class="custom-inputs" id="customInputsContainer">
-            <div id="customWeightWrapper">
-              <label data-i18n="customWeight">الوزن (جرام)</label>
-              <input type="text" id="customWeightInput" inputmode="decimal" lang="en" dir="ltr" placeholder="0.00">
-            </div>
-            <div id="customMasWrapper">
-              <label id="customMasLabel" data-i18n="customMas">المصنعية (للجرام)</label>
-              <input type="text" id="customMasInput" inputmode="decimal" lang="en" dir="ltr" placeholder="0">
-            </div>
-          </div>
-        </section>
-
-        <section class="invoice-card" id="invoiceArea">
-          <div class="invoice-row">
-            <span class="label" id="invoiceKaratLabel">سعر عيار <span class="en-num">24</span></span>
-            <strong id="resGramBase">0.00</strong>
-          </div>
-          <div class="invoice-row">
-            <span class="label" id="invoiceMasnaweyaLabel" data-i18n="masnaweya">المصنعية للجرام</span>
-            <strong id="resMasnaweya">0</strong>
-          </div>
-          <div class="invoice-row row-buy">
-            <span class="label" data-i18n="totalBuy">إجمالي سعر الشراء</span>
-            <strong id="resTotalBuy">0.00</strong>
-          </div>
-          <div class="invoice-row">
-            <span class="label" data-i18n="cashback">كاش باك للجرام</span>
-            <strong id="resCashback">0</strong>
-          </div>
-          <div class="invoice-row row-sell">
-            <span class="label" data-i18n="totalSell">إجمالي سعر البيع</span>
-            <strong id="resTotalSell">0.00</strong>
-          </div>
-        </section>
       </section>
 
-      <!-- ================= Tab 2: Zakat ================= -->
+      <!-- ================= Tab 2: Bullion Calculator ================= -->
+      <section id="tab-bullion" class="tab-page">
+        <div class="feature-card" style="border: none; background: transparent; padding: 0; box-shadow: none;">
+          <div class="feature-header" style="background: var(--card-bg); padding: 10px; border-radius: 12px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); margin-bottom: 8px;">
+            <h2 data-i18n="navBullion">حاسبة السبائك والعملات</h2>
+          </div>
+
+          <div class="karat-toggle">
+            <div class="toggle-btn active" data-karat="24" data-i18n="karat24">عيار 24 (السبائك)</div>
+            <div class="toggle-btn" data-karat="21" data-i18n="karat21">عيار 21 (العملات)</div>
+          </div>
+
+          <section class="user-input-section">
+            <label id="dropdownLabel" data-i18n="dropdownLabel24">اختر الوزن</label>
+            <div class="custom-dropdown" id="customDropdown">
+              <div class="dropdown-selected" id="dropdownSelected">
+                <span id="selectedText" data-i18n="dropdownDefault">اضغط للاختيار...</span>
+                <span class="dropdown-arrow">▼</span>
+              </div>
+              <div class="dropdown-options" id="dropdownOptions"></div>
+            </div>
+            
+            <div class="custom-inputs" id="customInputsContainer">
+              <div id="customWeightWrapper">
+                <label data-i18n="customWeight">الوزن (جرام)</label>
+                <input type="text" id="customWeightInput" inputmode="decimal" lang="en" dir="ltr" placeholder="0.00">
+              </div>
+              <div id="customMasWrapper">
+                <label id="customMasLabel" data-i18n="customMas">المصنعية (للجرام)</label>
+                <input type="text" id="customMasInput" inputmode="decimal" lang="en" dir="ltr" placeholder="0">
+              </div>
+            </div>
+          </section>
+
+          <section class="invoice-card" id="invoiceArea">
+            <div class="invoice-row">
+              <span class="label" id="invoiceKaratLabel">سعر عيار <span class="en-num">24</span></span>
+              <strong id="resGramBase">0.00</strong>
+            </div>
+            <div class="invoice-row">
+              <span class="label" id="invoiceMasnaweyaLabel" data-i18n="masnaweya">المصنعية للجرام</span>
+              <strong id="resMasnaweya">0</strong>
+            </div>
+            <div class="invoice-row row-buy">
+              <span class="label" data-i18n="totalBuy">إجمالي سعر الشراء</span>
+              <strong id="resTotalBuy">0.00</strong>
+            </div>
+            <div class="invoice-row">
+              <span class="label" data-i18n="cashback">كاش باك للجرام</span>
+              <strong id="resCashback">0</strong>
+            </div>
+            <div class="invoice-row row-sell">
+              <span class="label" data-i18n="totalSell">إجمالي سعر البيع</span>
+              <strong id="resTotalSell">0.00</strong>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ================= Tab 3: Zakat ================= -->
       <section id="tab-portfolio" class="tab-page">
         <div class="feature-card">
           <div class="feature-header">
@@ -427,16 +501,10 @@
             <h3 id="zakatAmountValue">0.00</h3>
           </div>
 
-          <!-- صندوق الحديث الشريف -->
-          <div class="hadith-box">
-            <div class="hadith-title">قال ﷺ :</div>
-            <div class="hadith-text">ما مِن صاحِبِ ذَهَبٍ ولا فِضَّةٍ لا يؤدِّي منها حقَّها إلَّا إذا كان يومُ القيامةِ، صُفِّحَتْ له صفائِحُ من نارٍ، فأُحمِيَ عليها في نارِ جهنَّمَ، فيُكوى بها جَنبُه وجبينُه وظهرُه .</div>
-          </div>
-
         </div>
       </section>
 
-      <!-- ================= Tab 3: Settings ================= -->
+      <!-- ================= Tab 4: Settings ================= -->
       <section id="tab-settings" class="tab-page">
         <div class="feature-card">
           <div class="feature-header">
@@ -451,22 +519,6 @@
             <svg style="width: 15px; height: 15px; fill: var(--text-muted);" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
           </div>
 
-          <!-- زر مشاركة التطبيق -->
-          <div class="setting-item" id="shareAppBtn" style="cursor: pointer;">
-            <div class="setting-info">
-              <span class="setting-title" data-i18n="shareAppTitle">مشاركة التطبيق</span>
-              <span class="setting-desc" data-i18n="shareAppDesc">شارك التطبيق مع أصدقائك</span>
-            </div>
-            <svg style="width: 15px; height: 15px; fill: var(--text-muted);" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
-          </div>
-
-          <div class="setting-item">
-            <div class="setting-info">
-              <span class="setting-title" data-i18n="settingsAppInfo">معلومات التطبيق</span>
-              <span class="setting-desc" data-i18n="settingsVersion">الإصدار 1.0 (تخطيط صلب)</span>
-            </div>
-          </div>
-          
           <div class="setting-item">
             <div class="setting-info">
               <span class="setting-title" data-i18n="settingsStatus">حالة الاتصال</span>
@@ -474,13 +526,46 @@
             </div>
           </div>
         </div>
+
+        <!-- Settings Footer (Version & Social Links) -->
+        <div class="settings-footer">
+          <div class="social-actions">
+            <!-- Share Icon -->
+            <button class="action-btn" id="footerShareBtn" aria-label="Share">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" fill="currentColor"/></svg>
+            </button>
+            <!-- WhatsApp Icon -->
+            <button class="action-btn" id="footerWaBtn" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.022-.967-.264-.099-.456-.149-.648.149-.192.298-.765.967-.936 1.166-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.405-.883-.733-1.48-1.638-1.653-1.935-.173-.299-.018-.461.13-.611.134-.135.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.648-1.56-.888-2.136-.234-.56-.47-.484-.648-.492-.169-.007-.363-.008-.555-.008-.192 0-.504.072-.767.37-.264.298-1.008.985-1.008 2.4 0 1.415 1.032 2.784 1.176 2.983.144.199 2.034 3.111 4.928 4.364 2.894 1.253 2.894.836 3.42.786.526-.05 1.758-.718 2.004-1.413.246-.694.246-1.288.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg>
+            </button>
+          </div>
+          <div class="app-version">Gold price V 1.0</div>
+        </div>
       </section>
 
     </div> <!-- /app-container -->
 
-    <!-- ================= شريط التبويب السفلي ================= -->
+    <!-- ================= شريط التبويب السفلي (مرتب من اليمين لليسار) ================= -->
     <div class="bottom-nav-spacer">
       <nav class="bottom-nav">
+        
+        <!-- Live Prices (الأسعار - تظهر في أقصى اليمين) -->
+        <div class="nav-item active" data-target="tab-prices">
+          <div class="icon-wrapper">
+             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <span data-i18n="navPrices">الأسعار</span>
+        </div>
+
+        <!-- Bullion Calculator (السبائك) -->
+        <div class="nav-item" data-target="tab-bullion">
+          <div class="icon-wrapper">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm6 4h-4v-2h4v2zm0-4h-4v-2h4v2zm0-5H7V5h10v3z"/></svg>
+          </div>
+          <span data-i18n="navBullion">السبائك</span>
+        </div>
+
+        <!-- Zakat (زكاتي) -->
         <div class="nav-item" data-target="tab-portfolio">
           <div class="icon-wrapper">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79 1.55 1.5 3.63 2.45 5.94 2.51.54 3.01 2.37 5.56 4.88 7.04-.64.11-1.31.17-2.03.17z"/></svg>
@@ -488,19 +573,14 @@
           <span data-i18n="navZakatPage">زكاتي</span>
         </div>
 
-        <div class="nav-item active" data-target="tab-calc">
-          <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm6 4h-4v-2h4v2zm0-4h-4v-2h4v2zm0-5H7V5h10v3z"/></svg>
-          </div>
-          <span data-i18n="navCalc">سعر الذهب</span>
-        </div>
-
+        <!-- Settings (الإعدادات - تظهر في أقصى اليسار) -->
         <div class="nav-item" data-target="tab-settings">
           <div class="icon-wrapper">
             <svg viewBox="0 0 24 24"><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path><circle cx="12" cy="12" r="3"></circle></svg>
           </div>
           <span data-i18n="navSettings">الإعدادات</span>
         </div>
+
       </nav>
     </div>
     
@@ -581,6 +661,11 @@
         apiConnecting: "تحديث...", apiSuccess: "تحديث الأسعار", apiError: "خطأ بالاتصال",
         offlineMode: "وضع عدم الاتصال - آخر سعر",
         highPrice: "▲ أعلى سعر", lowPrice: "▼ أقل سعر",
+        
+        livePricesTitle: "أسعار الذهب اللحظية", karatHeader: "العيار",
+        k24Label: "عيار 24", k21Label: "عيار 21", k18Label: "عيار 18", coinLabel: "جنيه الذهب",
+        buyLabel: "شراء", sellLabel: "بيع",
+
         karat24: "عيار 24 (السبائك)", karat21: "عيار 21 (العملات)",
         dropdownLabel24: "اختر وزن السبيكة", dropdownLabel21: "اختر العملة الذهبية", dropdownDefault: "اضغط للاختيار...",
         customOption: "✍️ إدخال وزن مخصص...", customWeight: "الوزن (جرام)", 
@@ -595,18 +680,17 @@
         zakatPending: "أدخل الأوزان لمعرفة الحسبة", zakatNotReached: "لم يبلغ النصاب (أقل من 85ج عيار 24)",
         zakatReached: "مقدار الزكاة المستحق:",
         
-        navCalc: "سعر الذهب", navZakatPage: "زكاتي", navSettings: "الإعدادات",
+        navPrices: "الأسعار", navBullion: "السبائك", navZakatPage: "زكاتي", navSettings: "الإعدادات",
         
         aboutAppTitle: "حول التطبيق", aboutAppDesc: "نبذة عن تطبيق Gold price",
         aboutModalTitle: "حول تطبيق Gold price",
         aboutModalText: "تطبيق Gold price هو تطبيق لمتابعة أسعار الذهب اللحظية بدقة وسهولة، مع أداة بسيطة تساعدك على حساب زكاة ذهبك وفقا للشريعة الإسلامية بناءً على قيمة الذهب الحالية.",
         closeModal: "حسناً",
         
-        shareAppTitle: "مشاركة التطبيق", shareAppDesc: "شارك التطبيق مع أصدقائك",
         shareText: "تابع أسعار الذهب اللحظية واحسب زكاتك بسهولة مع تطبيق Gold price!",
         shareSuccess: "تم نسخ الرابط بنجاح",
 
-        settingsAppInfo: "معلومات التطبيق", settingsVersion: "الإصدار 1.0", settingsStatus: "حالة الاتصال", settingsConnLive: "متصل بالسيرفر المباشر", settingsConnOffline: "أوفلاين"
+        settingsStatus: "حالة الاتصال", settingsConnLive: "متصل بالسيرفر المباشر", settingsConnOffline: "أوفلاين"
       },
       en: {
         title: "Gold price", marketOpen: "Market Open", marketClosed: "Market Closed",
@@ -614,6 +698,11 @@
         apiConnecting: "Updating...", apiSuccess: "Prices Updated", apiError: "Update Failed",
         offlineMode: "Offline Mode - Last Price",
         highPrice: "▲ High", lowPrice: "▼ Low",
+        
+        livePricesTitle: "Live Gold Prices", karatHeader: "Karat",
+        k24Label: "24K", k21Label: "21K", k18Label: "18K", coinLabel: "Gold Coin",
+        buyLabel: "Buy", sellLabel: "Sell",
+
         karat24: "24K (Bars)", karat21: "21K (Coins)",
         dropdownLabel24: "Select Bar", dropdownLabel21: "Select Coin", dropdownDefault: "Tap to select...",
         customOption: "✍️ Custom Weight...", customWeight: "Weight (g)", 
@@ -628,18 +717,17 @@
         zakatPending: "Enter weights to calculate", zakatNotReached: "Below Nisab (85g of 24K)",
         zakatReached: "Zakat Due Amount:",
         
-        navCalc: "Calculator", navZakatPage: "My Zakat", navSettings: "Settings",
+        navPrices: "Prices", navBullion: "Bullions", navZakatPage: "My Zakat", navSettings: "Settings",
         
         aboutAppTitle: "About App", aboutAppDesc: "Learn more about Gold price",
         aboutModalTitle: "About Gold price",
         aboutModalText: "Gold price is an application to track live gold prices accurately and easily, along with a simple tool to help you calculate your gold Zakat according to Islamic Sharia based on current gold values.",
         closeModal: "Got it",
         
-        shareAppTitle: "Share App", shareAppDesc: "Share the app with your friends",
         shareText: "Track live gold prices and calculate your Zakat easily with Gold price app!",
         shareSuccess: "Link copied to clipboard",
 
-        settingsAppInfo: "App Information", settingsVersion: "Version 1.0", settingsStatus: "Connection Status", settingsConnLive: "Live Server Connected", settingsConnOffline: "Offline Mode"
+        settingsStatus: "Connection Status", settingsConnLive: "Live Server Connected", settingsConnOffline: "Offline Mode"
       }
     };
 
@@ -650,6 +738,12 @@
       ouncePrice: document.getElementById('ouncePrice'), dollarRate: document.getElementById('dollarRate'), trendIcon: document.getElementById('trendIcon'),
       dailyHigh: document.getElementById('dailyHigh'), dailyLow: document.getElementById('dailyLow'),
       statusIcon: document.getElementById('statusIcon'), statusMessage: document.getElementById('statusMessage'), updateTime: document.getElementById('updateTime'),
+      
+      price24Buy: document.getElementById('price24Buy'), price24Sell: document.getElementById('price24Sell'),
+      price21Buy: document.getElementById('price21Buy'), price21Sell: document.getElementById('price21Sell'),
+      price18Buy: document.getElementById('price18Buy'), price18Sell: document.getElementById('price18Sell'),
+      priceCoinBuy: document.getElementById('priceCoinBuy'), priceCoinSell: document.getElementById('priceCoinSell'),
+
       resGramBase: document.getElementById('resGramBase'), resMasnaweya: document.getElementById('resMasnaweya'),
       resTotalBuy: document.getElementById('resTotalBuy'), resCashback: document.getElementById('resCashback'), resTotalSell: document.getElementById('resTotalSell'),
       dropdownSelected: document.getElementById('dropdownSelected'), dropdownOptions: document.getElementById('dropdownOptions'), selectedText: document.getElementById('selectedText'),
@@ -661,7 +755,7 @@
       wealthTotalValue: document.getElementById('wealthTotalValue'), nisabText: document.getElementById('nisabText'), nisabBar: document.getElementById('nisabBar'),
       zakatResultBox: document.getElementById('zakatResultBox'), zakatStatusMsg: document.getElementById('zakatStatusMsg'), zakatAmountValue: document.getElementById('zakatAmountValue'),
       aboutAppBtn: document.getElementById('aboutAppBtn'), aboutModal: document.getElementById('aboutModal'), closeModalBtn: document.getElementById('closeModalBtn'),
-      shareAppBtn: document.getElementById('shareAppBtn')
+      footerShareBtn: document.getElementById('footerShareBtn'), footerWaBtn: document.getElementById('footerWaBtn')
     };[els.ouncePrice, els.dollarRate, els.customWeightInput, els.customMasInput, els.port24, els.port22, els.port21, els.port18].forEach(input => {
       input.addEventListener('input', handleInputFormat);
     });
@@ -673,35 +767,25 @@
       triggerVibration();
       navItems.forEach(item => item.classList.toggle('active', item.getAttribute('data-target') === targetId));
       tabPages.forEach(page => page.classList.toggle('active', page.id === targetId));
-      
       document.querySelector('.app-container').scrollTo({ top: 0, behavior: 'smooth' });
     }
     navItems.forEach(item => item.addEventListener('click', () => switchTab(item.getAttribute('data-target'))));
 
-    // --- Modal Logic ---
     els.aboutAppBtn.addEventListener('click', () => { triggerVibration(); els.aboutModal.classList.add('show'); });
     els.closeModalBtn.addEventListener('click', () => { triggerVibration(); els.aboutModal.classList.remove('show'); });
     els.aboutModal.addEventListener('click', (e) => { if(e.target === els.aboutModal) els.aboutModal.classList.remove('show'); });
 
-    // --- Share Logic ---
-    els.shareAppBtn.addEventListener('click', async () => {
+    els.footerShareBtn.addEventListener('click', async () => {
       triggerVibration();
-      const shareData = {
-        title: 'Gold price',
-        text: i18n[currentLang].shareText,
-        url: window.location.href
-      };
+      const shareData = { title: 'Gold price', text: i18n[currentLang].shareText, url: window.location.href };
+      if (navigator.share) { try { await navigator.share(shareData); } catch (err) { console.log('Error sharing:', err); } } 
+      else { navigator.clipboard.writeText(window.location.href).then(() => { alert(i18n[currentLang].shareSuccess); }).catch(err => { console.log('Error copying link:', err); }); }
+    });
 
-      if (navigator.share) {
-        try { await navigator.share(shareData); } 
-        catch (err) { console.log('Error sharing:', err); }
-      } else {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          alert(i18n[currentLang].shareSuccess);
-        }).catch(err => {
-          console.log('Error copying link:', err);
-        });
-      }
+    els.footerWaBtn.addEventListener('click', () => {
+      triggerVibration();
+      const waText = encodeURIComponent(i18n[currentLang].shareText + " " + window.location.href);
+      window.open('https://wa.me/?text=' + waText, '_blank');
     });
 
     function checkMarketStatus() {
@@ -721,7 +805,6 @@
       document.querySelector('.hl-item.up span').textContent = i18n[lang].highPrice;
       document.querySelector('.hl-item.down span').textContent = i18n[lang].lowPrice;
       
-      // الحفاظ على حالة النصوص المتغيرة ديناميكياً
       if (isCustomSelected && currentKarat === 21) {
           els.customMasLabel.textContent = i18n[lang].customMasPercent;
           els.invoiceMasnaweyaLabel.textContent = i18n[lang].totalMasnaweya;
@@ -787,10 +870,8 @@
       els.customWeightInput.value = ''; els.customMasInput.value = '';
       els.invoiceKaratLabel.innerHTML = currentLang === 'ar' ? `${i18n.ar.karatPriceLabel} <span class="en-num">${currentKarat}</span>` : `${i18n.en.karatPriceLabel} <span class="en-num">${currentKarat}K</span>`;
       els.dropdownLabel.textContent = currentKarat === 24 ? i18n[currentLang].dropdownLabel24 : i18n[currentLang].dropdownLabel21;
-      
       els.invoiceMasnaweyaLabel.textContent = i18n[currentLang].masnaweya; 
       els.customMasLabel.textContent = i18n[currentLang].customMas;
-      
       calculateResults();
     }
 
@@ -828,20 +909,14 @@
         let dailyLow = parseFloat(localStorage.getItem('dailyLow')) || Infinity;
         const currentOuncePrice = parseFloat(newOuncePriceRaw);
 
-        if (savedDay !== today) {
-            dailyHigh = currentOuncePrice; dailyLow = currentOuncePrice; localStorage.setItem('priceDay', today);
-        } else {
-            if (currentOuncePrice > dailyHigh) dailyHigh = currentOuncePrice;
-            if (currentOuncePrice < dailyLow) dailyLow = currentOuncePrice;
-        }
+        if (savedDay !== today) { dailyHigh = currentOuncePrice; dailyLow = currentOuncePrice; localStorage.setItem('priceDay', today); } 
+        else { if (currentOuncePrice > dailyHigh) dailyHigh = currentOuncePrice; if (currentOuncePrice < dailyLow) dailyLow = currentOuncePrice; }
 
         const oldOuncePriceRaw = parseFloat(localStorage.getItem('cachedOunce')) || currentOuncePrice;
         if (currentOuncePrice !== oldOuncePriceRaw) {
           if (currentOuncePrice > oldOuncePriceRaw) { els.trendIcon.innerHTML = '▲'; els.trendIcon.className = 'trend-icon trend-up'; } 
           else { els.trendIcon.innerHTML = '▼'; els.trendIcon.className = 'trend-icon trend-down'; }
-        } else {
-          els.trendIcon.innerHTML = '●'; els.trendIcon.className = 'trend-icon trend-neutral';
-        }
+        } else { els.trendIcon.innerHTML = '●'; els.trendIcon.className = 'trend-icon trend-neutral'; }
 
         localStorage.setItem('dailyHigh', dailyHigh); localStorage.setItem('dailyLow', dailyLow); localStorage.setItem('cachedOunce', newOuncePriceRaw);
         
@@ -859,8 +934,7 @@
         }
 
         els.statusIcon.innerHTML = '✔'; els.statusIcon.style.color = '#10b981'; els.statusMessage.textContent = i18n[currentLang].apiSuccess;
-        isAppOnline = true; 
-        updateSettingsStatus(true);
+        isAppOnline = true; updateSettingsStatus(true);
         const now = new Date(); const timeStr = `(${now.getHours() % 12 || 12}:${now.getMinutes().toString().padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'})`;
         els.updateTime.textContent = timeStr; localStorage.setItem('cachedTime', timeStr);
         calculateResults();
@@ -878,13 +952,10 @@
           els.trendIcon.innerHTML = '●'; els.trendIcon.className = 'trend-icon trend-neutral';
           els.statusIcon.innerHTML = '⚠'; els.statusIcon.style.color = '#fbbf24'; els.statusMessage.textContent = i18n[currentLang].offlineMode;
           els.updateTime.textContent = savedTime || ''; 
-          isAppOnline = false; 
-          updateSettingsStatus(false); calculateResults();
+          isAppOnline = false; updateSettingsStatus(false); calculateResults();
         } else {
           els.statusIcon.innerHTML = '✖'; els.statusIcon.style.color = '#ef4444'; els.statusMessage.textContent = i18n[currentLang].apiError; 
-          els.updateTime.textContent = ''; 
-          isAppOnline = false; 
-          updateSettingsStatus(false);
+          els.updateTime.textContent = ''; isAppOnline = false; updateSettingsStatus(false);
         }
       }
     }
@@ -892,30 +963,41 @@
     function calculateResults() {
       const ounce = getRawValue(els.ouncePrice.value); const dollar = getRawValue(els.dollarRate.value);
       
-      let currentCashback = (currentKarat === 21 && isCustomSelected) ? 0 : CASHBACK_MARGIN;
-
       globalGramPrice24 = (ounce * dollar) / GRAMS_PER_OUNCE;
-      let gramPrice = globalGramPrice24; if (currentKarat === 21) gramPrice = gramPrice * (21 / 24);
+      let base24 = globalGramPrice24;
+      let base21 = base24 * (21 / 24);
+      let base18 = base24 * (18 / 24);
+      let baseCoin = base21 * 8; 
+
+      els.price24Buy.textContent = base24 > 0 ? formatMoney(base24) : "0.00";
+      els.price24Sell.textContent = base24 > 0 ? formatMoney(base24 - CASHBACK_MARGIN) : "0.00";
+      
+      els.price21Buy.textContent = base21 > 0 ? formatMoney(base21) : "0.00";
+      els.price21Sell.textContent = base21 > 0 ? formatMoney(base21 - CASHBACK_MARGIN) : "0.00";
+      
+      els.price18Buy.textContent = base18 > 0 ? formatMoney(base18) : "0.00";
+      els.price18Sell.textContent = base18 > 0 ? formatMoney(base18 - CASHBACK_MARGIN) : "0.00";
+
+      els.priceCoinBuy.textContent = baseCoin > 0 ? formatMoney(baseCoin) : "0.00";
+      els.priceCoinSell.textContent = baseCoin > 0 ? formatMoney(baseCoin - (CASHBACK_MARGIN * 8)) : "0.00";
+
+      let currentCashback = (currentKarat === 21 && isCustomSelected) ? 0 : CASHBACK_MARGIN;
+      let gramPrice = currentKarat === 21 ? base21 : base24;
       els.resGramBase.textContent = (ounce > 0 && dollar > 0) ? formatMoney(gramPrice) : "0.00";
       
       if (!selectedWeightValue || !ounce || !dollar) { 
-        els.resTotalBuy.textContent = "0.00"; 
-        els.resTotalSell.textContent = "0.00"; 
-        els.resMasnaweya.textContent = "0";
-        els.resCashback.textContent = "0";
-        calculatePortfolioAndZakat(); 
-        return; 
+        els.resTotalBuy.textContent = "0.00"; els.resTotalSell.textContent = "0.00"; 
+        els.resMasnaweya.textContent = "0"; els.resCashback.textContent = "0";
+        calculatePortfolioAndZakat(); return; 
       }
 
       let totalGoldValue = gramPrice * selectedWeightValue;
-      let totalBuyPrice = 0;
-      let displayMasnaweya = 0;
+      let totalBuyPrice = 0; let displayMasnaweya = 0;
 
       if (currentKarat === 21 && isCustomSelected) {
          let percentage = selectedMasnaweyaValue; 
          let totalMasAmount = totalGoldValue * (percentage / 100);
-         totalBuyPrice = totalGoldValue + totalMasAmount;
-         displayMasnaweya = totalMasAmount;
+         totalBuyPrice = totalGoldValue + totalMasAmount; displayMasnaweya = totalMasAmount;
       } else {
          totalBuyPrice = totalGoldValue + (selectedMasnaweyaValue * selectedWeightValue);
          displayMasnaweya = selectedMasnaweyaValue;
@@ -923,9 +1005,9 @@
 
       els.resMasnaweya.textContent = formatMoney(displayMasnaweya);
       els.resCashback.textContent = formatMoney(currentCashback);
-      
       els.resTotalBuy.textContent = formatMoney(totalBuyPrice); 
       els.resTotalSell.textContent = formatMoney((gramPrice + currentCashback) * selectedWeightValue);
+      
       calculatePortfolioAndZakat(); 
     }
     
